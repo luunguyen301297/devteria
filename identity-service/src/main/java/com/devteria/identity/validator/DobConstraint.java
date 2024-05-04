@@ -13,11 +13,13 @@ import jakarta.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = {DobValidator.class})
 public @interface DobConstraint {
-    String message() default "Invalid date of birth";
 
     int min();
+
+    String message() default "Invalid date of birth";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

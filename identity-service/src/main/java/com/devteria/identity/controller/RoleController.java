@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.devteria.identity.dto.request.ApiResponse;
+import com.devteria.identity.dto.response.ApiResponse;
 import com.devteria.identity.dto.request.RoleRequest;
 import com.devteria.identity.dto.response.RoleResponse;
 import com.devteria.identity.service.RoleService;
@@ -20,19 +20,20 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class RoleController {
+
     RoleService roleService;
 
     @PostMapping
     ApiResponse<RoleResponse> create(@RequestBody RoleRequest request) {
         return ApiResponse.<RoleResponse>builder()
-                .result(roleService.create(request))
+                .data(roleService.create(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<RoleResponse>> getAll() {
         return ApiResponse.<List<RoleResponse>>builder()
-                .result(roleService.getAll())
+                .data(roleService.getAll())
                 .build();
     }
 
@@ -41,4 +42,5 @@ public class RoleController {
         roleService.delete(role);
         return ApiResponse.<Void>builder().build();
     }
+
 }

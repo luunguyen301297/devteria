@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.devteria.identity.constant.PredefinedRole;
+import com.devteria.identity.constant.E_ROLE;
 import com.devteria.identity.entity.Role;
 import com.devteria.identity.entity.User;
 import com.devteria.identity.repository.RoleRepository;
@@ -32,7 +32,7 @@ public class ApplicationInitConfig {
     static final String ADMIN_USER_NAME = "admin";
 
     @NonFinal
-    static final String ADMIN_PASSWORD = "admin";
+    static final String ADMIN_PASSWORD = "admin@123";
 
     @Bean
     @ConditionalOnProperty(
@@ -44,12 +44,12 @@ public class ApplicationInitConfig {
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
                 roleRepository.save(Role.builder()
-                        .name(PredefinedRole.USER_ROLE)
+                        .name(E_ROLE.USER_ROLE)
                         .description("User role")
                         .build());
 
                 Role adminRole = roleRepository.save(Role.builder()
-                        .name(PredefinedRole.ADMIN_ROLE)
+                        .name(E_ROLE.ADMIN_ROLE)
                         .description("Admin role")
                         .build());
 

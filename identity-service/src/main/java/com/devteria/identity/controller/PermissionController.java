@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.devteria.identity.dto.request.ApiResponse;
+import com.devteria.identity.dto.response.ApiResponse;
 import com.devteria.identity.dto.request.PermissionRequest;
 import com.devteria.identity.dto.response.PermissionResponse;
 import com.devteria.identity.service.PermissionService;
@@ -20,19 +20,20 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class PermissionController {
+
     PermissionService permissionService;
 
     @PostMapping
     ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request) {
         return ApiResponse.<PermissionResponse>builder()
-                .result(permissionService.create(request))
+                .data(permissionService.create(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<PermissionResponse>> getAll() {
         return ApiResponse.<List<PermissionResponse>>builder()
-                .result(permissionService.getAll())
+                .data(permissionService.getAll())
                 .build();
     }
 
@@ -41,4 +42,5 @@ public class PermissionController {
         permissionService.delete(permission);
         return ApiResponse.<Void>builder().build();
     }
+
 }

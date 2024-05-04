@@ -1,6 +1,5 @@
 package com.devteria.identity.entity;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -14,18 +13,17 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-
     String username;
     String password;
-    String firstName;
-    LocalDate dob;
-    String lastName;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
     Set<Role> roles;
 }

@@ -8,7 +8,7 @@ import com.devteria.identity.entity.Permission;
 
 @Mapper(componentModel = "spring")
 public interface PermissionMapper {
-    Permission toPermission(PermissionRequest request);
+    Permission toEntity(PermissionRequest request);
 
-    PermissionResponse toPermissionResponse(Permission permission);
+    PermissionResponse toDto(Permission permission);
 }
