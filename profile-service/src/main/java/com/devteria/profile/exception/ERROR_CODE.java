@@ -1,14 +1,14 @@
-package com.devteria.identity.exception;
+package com.devteria.profile.exception;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
-import lombok.Getter;
-
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
+public enum ERROR_CODE {
+
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
 
     INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
@@ -27,4 +27,5 @@ public enum ErrorCode {
     private final int code;
     private final String message;
     private final HttpStatusCode statusCode;
+
 }

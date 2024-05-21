@@ -1,4 +1,4 @@
-package com.devteria.identity.exception;
+package com.devteria.profile.exception;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -10,14 +10,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.devteria.identity.constant.E_ROLE;
+import com.devteria.identity.constant.ROLE;
 import com.devteria.identity.dto.request.UserCreationRequest;
 import com.devteria.identity.dto.request.UserUpdateRequest;
 import com.devteria.identity.dto.response.UserResponse;
 import com.devteria.identity.entity.Role;
 import com.devteria.identity.entity.User;
 import com.devteria.identity.exception.AppException;
-import com.devteria.identity.exception.ErrorCode;
+import com.devteria.identity.exception.ERROR_CODE;
 import com.devteria.identity.mapper.UserMapper;
 import com.devteria.identity.repository.RoleRepository;
 import com.devteria.identity.repository.UserRepository;
@@ -43,13 +43,13 @@ public class UserService {
 
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepo.existsByUsername(request.getUsername()))
-            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ERROR_CODE.USER_EXISTED);
 
         User user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         HashSet<Role> roles = new HashSet<>();
-        roleRepo.findById(E_ROLE.USER_ROLE).ifPresent(roles::add);
+        roleRepo.findById(ROLE.USER.val).ifPresent(roles::add);
 
         user.setRoles(roles);
         user = userRepo.save(user);
@@ -67,7 +67,7 @@ public class UserService {
         String name = context.getAuthentication().getName();
 
         User user = userRepo.findByUsername(name).orElseThrow(()
-                -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                -> new AppException(ERROR_CODE.USER_NOT_EXISTED));
 
         return userMapper.toDto(user);
     }
@@ -75,7 +75,7 @@ public class UserService {
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepo.findById(userId).orElseThrow(()
-                -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                -> new AppException(ERROR_CODE.USER_NOT_EXISTED));
 
         userMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -98,9 +98,10 @@ public class UserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUser(String id) {
-        return userMapper.toDto(
-                userRepo.findById(id).orElseThrow(()
-                        -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+        User user = userRepo.findById(id).orElseThrow(()
+                -> new AppException(ERROR_CODE.USER_NOT_EXISTED));
+
+        return userMapper.toDto(user);
     }
 
 }

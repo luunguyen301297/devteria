@@ -1,4 +1,4 @@
-package com.devteria.identity.configuration;
+package com.devteria.profile.configuration;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,11 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     String[] PUBLIC_ENDPOINTS = {
-            "/users/register",
-            "/auth/login",
-            "/auth/introspect",
-            "/auth/logout",
-            "/auth/refresh"
+        "/internal/users/create"
     };
 
     CustomJwtDecoder customJwtDecoder;
@@ -62,8 +56,4 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
 }

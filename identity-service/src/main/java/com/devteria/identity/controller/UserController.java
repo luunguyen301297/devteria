@@ -15,18 +15,16 @@ import com.devteria.identity.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
 public class UserController {
 
     UserService userService;
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.createUser(request))
@@ -55,9 +53,11 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    ApiResponse<String> deleteUser(@PathVariable String userId) {
+    ApiResponse<?> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
-        return ApiResponse.<String>builder().data("User has been deleted").build();
+        return ApiResponse.<String>builder()
+                .data("success deleted")
+                .build();
     }
 
     @PutMapping("/{userId}")

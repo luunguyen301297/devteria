@@ -12,13 +12,11 @@ import com.devteria.identity.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/roles")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
 public class RoleController {
 
     RoleService roleService;
@@ -38,9 +36,11 @@ public class RoleController {
     }
 
     @DeleteMapping("/{role}")
-    ApiResponse<Void> delete(@PathVariable String role) {
+    ApiResponse<?> delete(@PathVariable String role) {
         roleService.delete(role);
-        return ApiResponse.<Void>builder().build();
+        return ApiResponse.<String>builder()
+                .data("success deleted")
+                .build();
     }
 
 }
